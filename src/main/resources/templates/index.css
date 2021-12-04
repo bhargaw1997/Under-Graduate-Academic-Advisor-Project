@@ -1,0 +1,16 @@
+.advisor{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+}
+/*.advisor #assignedPhoto*/
+/*{*/
+/*    width:calc(100% - 10px);*/
+/*    border-radius : 5%;*/
+/*    border:5px solid #5f8a3f;*/
+/*}*/
+/*.advisor #assignedName{*/
+/*    font-weight: bold;*/
+/*    font-size:1.3rem;*/
+/*}*/

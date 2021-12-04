@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Advisor Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Undergraduate Advisors</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center">Add Assignment</h1>
+            <div class="card-body">
+                <form th:action ="@{/assignments/save}" th:object ="${assignmentnew}"  onkeyup="AlphaDelimValidation()"  method="POST">
+
+                    <div class="form-group">
+
+                    <div class="form-group">
+<!--                                                <label>Advisor ID</label>-->
+<!--                                                <input type="text" name="advisorid" th:field = "*{advisor.id}" class ="form-control" placeholder="Enter Advisor ID"> </div>-->
+                        <label>Choose Advisor</label>
+                        <select th:field ="*{advisor}" class="form-control">
+                            <th:block th:each ="adv : ${advisorslist}">
+                                <option th:text="${adv.firstName}" th:value="${adv.id}" />
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                            <label>Choose Major:</label>
+                            <select th:field ="*{major}" class="form-control">
+                                <th:block th:each ="maj : ${majorslist}">
+                                    <option th:text="${maj.majorname}" th:value="${maj.majorid}" />
+                                </th:block>
+                            </select>
+                    </div>
+                        <label class="col-form-label col-sm-4">Alpha Values</label>
+                        <br/>
+                        <input type="text" id="Alpha1" th:field = "*{alpha1}" class="alpha-delim-1" name="Alpha1"> - <input type="text" id="Alpha2" th:field="*{alpha2}" class="alpha-delim-2" name="Alpha2">
+                        <br/>
+                        <input type="text" id="Alpha1" th:field ="*{alpha1}" class="alpha-delim-1" name="Alpha1"> - <input type="text" id="Alpha2" th:field="*{alpha2}" class="alpha-delim-2" name="Alpha2">
+                        <br/>
+                        <input type="text" id="Alpha1" th:field ="*{alpha1}" class="alpha-delim-1" name="Alpha1"> - <input type="text" id="Alpha2" th:field="*{alpha2}" class="alpha-delim-2" name="Alpha2">
+                        <br/>
+
+                        <br/>
+
+                        <div class="box-footer">
+                        <button type ="submit" class="btn btn-primary"onclick="myFunction()">
+                            Save Assignment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<p id="demo"></p>
+<script>
+
+    function AlphaDelimValidation() {
+        var letters = /^[A-Za-z]+$/;
+
+        let text = "";
+        let err = 0;
+
+        const alpha1 = document.querySelectorAll('.alpha-delim-1');
+        const alpha2 = document.querySelectorAll('.alpha-delim-2');
+
+        //console.log("alpha1", alpha1.lenth, "alpha2", alpha2.length);
+        //console.log("alpha1", alpha1, "alpha2", alpha2);
+
+        if(alpha1.length == alpha2.length){
+            //console.log("Arrays same length");
+        }else{
+            alert("You Did something Seriously Wrong");
+        }
+
+
+
+        //test inputs from alpha2
+        for (let step = 0; step < alpha2.length; step++){
+            let a1 = alpha1[step].value;
+            let a2 = alpha2[step].value;
+
+
+            //test "whole" inputs, so string lengths, numbers, etc
+            if(a1 == "" && a2 == ""){	//see if empty pair is entered - valid entry/no warning
+                //says nothing, valid pair
+            } else if (a1.match(letters) && a1.length <= 3){//sees if entry is longer than 3 characters - valid entry/no warning
+                //says nothing bc all inputs are valid
+            }else if(a1 == "" && a2 != ""){//sees if pair has one empty entry and one nonempty entry - invalid entry/gives warning
+                //increments that there is an error
+                err++;
+                //appends errors to user
+                text = (text + "Row " + (step+1) + " - Alpha Deliminators must be in pairs<br/>");
+            } else {//anything else gives an error - invalid entry/gives warning
+                //increments that there is an error
+                err++;
+                //appends errors to user
+                text = (text + "Row " + (step+1) + " - " + alpha1[step].value + " is not a valid input<br/>");
+            }
+
+
+
+
+            a1 = a1.toLocaleLowerCase();//make evertying lowercase
+            a2 = a2.toLocaleLowerCase();//make evertying lowercase
+            //console.log(typeof a1, a1);
+            //console.log(typeof a2, a2);
+            //console.log("<br/>");
+
+
+            if (a1 == a2 && a1.length > 0){//checks that the strings are not the same. This has to be done after the entries are made lower case
+                text = (text + "Row " + (step+1) + " - Deliminator Pair Should Not Have Repeating Values " + "<br/>");
+            }
+
+            //test inputs character-by-character
+            //this for loop iterates through each character in each string
+            for(let i = 0; i < 3;i++){
+                letter1 = a1.charCodeAt(i);//gets the respective character code for comparison
+                letter2 = a2.charCodeAt(i);//gets the respective character code for comparison
+
+
+                //check for "failure"
+                if(letter1 < letter2){//if the respective letter of the first string Strictly Less Than the respective letter of the second string?
+                    //input valid so looping wont matter
+                    break;
+                }
+                else if(letter1 == letter2){//if the respective letters are the same
+                    //need to iterate again
+                }
+                else if(letter1 > letter2){//if the respective letter of the first string is bigger than the respective letter of the second string
+                    //ascendingErr++;
+                    err++; //make sure the "all valid" message is not shown
+                    text = (text + "Row " + (step+1) + " - Alpha Deliminator Pairs must be in ascending order<br/>");
+                    break; //exits loop if there is anything out of ascending order, also keeps error message from repeating
+                }
+                /*
+                the logic of this comparison is as follows
+                    if the respective letter is strictly "less than" the other respective letter; then the whole string is "less than" the other whole string
+                    if the respective letters are the same you must move onto compare the next respective letters
+                    if the respective letter is strictly "greater than" the other respective letter; then the whole string is "greater than" the other whole string
+                */
+            }
+        }
+
+
+
+
+
+
+
+        //give all clear if no errors are found
+        if(err == 0){
+            text = "All Inputs Verified as Valid - Changes Saved";
+        }
+
+        //show warnings
+        document.getElementById("demo").innerHTML = text;
+    }
+</script>
+
+
+</body>
+</html>

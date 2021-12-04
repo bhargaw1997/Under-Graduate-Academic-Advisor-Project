@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th ="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UnderGraduate Advising</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylsheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        h1 { text-align: center;}
+        h2 {
+            text-align: center;}
+        div.container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#" >Undergraduate Advisors</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" href="@{/advisors}">Advisors View</a>-->
+            <!--            </li>-->
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" href="#">Link</a>-->
+            <!--            </li>-->
+            <!--            <li class="nav-item">-->
+            <!--                <a class="nav-link" href="#">Link</a>-->
+            <!--            </li>-->
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <br/>
+    <br/>
+   <div for="majors" id="h1" style="float: left;"> <h1>Find your Advisor</h1>
+       <br/>
+       <form th:action ="@{/findByStuLastName/{stuName}/{majorname}}">
+           <div  class="form-group">
+               <label>Choose Major:</label>
+<!--               <select th:field="*{majors}" name="majorname" class="form-control">-->
+<!--                   <th:block th:each ="maj : ${majors}">-->
+<!--                       <option th:text="${maj.majorname}" th:value="${maj.majorname}"  />-->
+<!--                   </th:block>-->
+<!--               </select>-->
+               <select name="majorname">
+                   <option value=""></option>
+                   <option value="bio engineering">BioEngineering</option>
+                   <option value="computer science">Computer Science</option>
+                   <option value="electrical and computer engineering">Electrical and Computer Engineering</option>
+                   <option value="materials science and engineering">Materials Science and Engineering</option>
+                   <option value="mechanical engineering">Mechanical Engineering</option>
+                   <option value="systems engineering">Systems Engineering</option>
+               </select>
+           </div>
+           <br/>
+            <label for="stuName">Enter Your Last Name:</label>
+            <input type="text" id="stuName" name="stuName" style="margin:0 auto;text-align: center;" value=""><br/><br/>
+           <input type ="submit">
+
+        </input>
+       </form>
+    </div>
+
+    <br/>
+<!--    <table class="table table-striped table-bordered">-->
+<!--        <thead class="table-dark">-->
+<!--        <tr>-->
+<!--            <th>Advisor First Name</th>-->
+<!--            <th>Advisor Last Name</th>-->
+<!--            <th>Advisor Email</th>-->
+<!--        </tr></thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each = "advisor:${advisorsl}">-->
+<!--            <td th:text ="${advisor.firstName}"></td>-->
+<!--            <td th:text ="${advisor.lastName}"></td>-->
+<!--&lt;!&ndash;            <td th:text ="${advisor.email}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a th:href="$" >Send Mail</a></td>&ndash;&gt;-->
+<!--            <td><a th:href="'mailto:' + ${advisor.email}">Send Email</a></td>-->
+<!--        </tr>-->
+    <div class="advisor">
+        <br/>
+        <br/>
+        <tr th:each = "advisor:${advisorsl}">
+            <img src="C://Users/sripr/Pictures/blank-profile-picture-973460_1280" alt="Assigned Advisors Picture" id="assignedPhoto" style="">
+            <h2 th:text="${advisor.firstName} +' '+${advisor.lastName}"></h2>
+<!--           <label><strong>Advisor First Name :</strong></label>-->
+<!--            <td id="assignedfirstName" th:text="${advisor.firstName}"></td>-->
+<!--            <br/>-->
+<!--            <label><strong>Advisor Last Name :</strong></label>-->
+<!--            <td id="assignedlastName" th:text="${advisor.lastName}"></td>-->
+            <label><strong>Send Email :</strong></label>
+            <td><a th:href="'mailto:' + ${advisor.email}"><label th:text="${advisor.email}"></label></a></td>
+            <br/>
+            <label><strong>Schedule Meeting :</strong></label>
+            <td id="assignedurl" th:text="${advisor.link}"></td>
+        </tr>
+    </div>
+    </div>
+</body>
+</html>
